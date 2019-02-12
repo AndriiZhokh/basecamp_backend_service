@@ -1,0 +1,10 @@
+{
+  "apiPrefix": "",
+  "serverPort": "3002",
+  "db": {
+    "database": "serialsdb",
+    "host": "localhost",
+    "user": "root",
+    "password": ""
+  }
+}
