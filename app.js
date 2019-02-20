@@ -39,13 +39,15 @@ const checkFileType = (file, cb) => {
 
 //Init app
 const app = express();
+app.use(express.static('public'));
 
-app.get('/get_show', (req, res) => {
-  db.showAll().then(data => res.json(data))
-              .catch(() => console.log('error'));
+app.get('/show', (req, res) => {
+  console.log('!!!!');
+  const show = new Show();
+  const data = show.getShow(res);
 });
 
-app.post('/add_show', (req, res) => {
+app.post('/show', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
       res.json({msg: err})
