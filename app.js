@@ -50,14 +50,30 @@ app.get('/show', (req, res) => {
 app.post('/show', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
-      res.json({msg: err})
+      res.json({msg: err});
     } else {
-      console.log(typeof req.file.path);
       const show = new Show(req);
       show.addShow();
       res.json({test: 'test'});
     }
   });
+});
+
+app.post('/season', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.json({msg: err});
+    } else {
+      const season = new Season(req);
+      season.addSeason();
+      res.json({response: 'succses'});
+    }
+  });
+});
+
+app.get('/season', (req, res) => {
+  const season = new Season();
+  season.getSeason(res);
 });
 
 const server = app.listen(serverPort, () => {

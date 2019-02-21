@@ -25,7 +25,7 @@ export default class DB {
   queryFuncPost(q) {
       this.connection.query(q, (err, result) => {
         if(err) {
-          reject();
+          console.log(err);
         } else {
           console.log('1 record inserted');
         }
