@@ -76,6 +76,23 @@ app.get('/season', (req, res) => {
   season.getSeason(res);
 });
 
+app.post('/episode', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.json({msg: err});
+    } else {
+      const episode = new Episode(req);
+      episode.addEpisode();
+      res.json({response: 'succses'});
+    }
+  });
+});
+
+app.get('/episode', (req, res) => {
+  const episode = new Episode();
+  episode.getEpisode(res);
+});
+
 const server = app.listen(serverPort, () => {
   console.log(`Server is running on port - ${serverPort}`);
 });
