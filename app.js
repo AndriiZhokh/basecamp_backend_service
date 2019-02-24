@@ -42,12 +42,6 @@ const app = express();
 app.use(express.static('public'));
 
 //=========Show routes================
-app.get('/show', (req, res) => {
-  console.log('!!!!');
-  const show = new Show();
-  const data = show.getShow(res);
-});
-
 app.post('/show', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -56,6 +50,24 @@ app.post('/show', (req, res) => {
       const show = new Show(req);
       show.addShow();
       res.json({test: 'test'});
+    }
+  });
+});
+
+app.get('/show', (req, res) => {
+  console.log('!!!!');
+  const show = new Show();
+  const data = show.getShow(res);
+});
+
+app.put('/show/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      res.json({msg: err});
+    } else {
+      const show = new Show();
+      show.updateShow(req);
+      res.json({response: 'succses'})
     }
   });
 });
@@ -76,6 +88,18 @@ app.post('/season', (req, res) => {
 app.get('/season', (req, res) => {
   const season = new Season();
   season.getSeason(res);
+});
+
+app.put('/season/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.json({msg: err});
+    } else {
+      const season = new Season();
+      season.updateSeason(req);
+      res.json({response: 'succses'});
+    }
+  });
 });
 
 //=========Episode routes================

@@ -7,7 +7,6 @@ export default class Show extends DB {
       this.title = req.body.title;
       this.subtitle = req.body.subtitle;
       this.dateOfStart = req.body.date_of_start;
-      /* this.image = escape(req.file.path); */
       this.image = req.file.filename;
       this.long = req.body.long;
       this.short = req.body.short;
@@ -32,5 +31,51 @@ export default class Show extends DB {
     this.queryFuncGet(query)
       .then(data => res.json(data))
       .catch((err) => console.log(err));
+  }
+
+  updateShow(req) {
+    this.DBconection();
+    
+    const query2 = `UPDATE shows 
+      SET 
+        title = '${req.body.title}',
+        subtitle = '${req.body.subtitle}',
+        date_of_start = '${req.body.dateOfStart}',
+        long_description = '${req.body.long}',
+        short_description = '${req.body.short}',
+        priority = '${req.body.priority}',
+        last_modified_date = '${new Date().toLocaleString()}',
+        video_fragment_url = '${req.body.url}',
+        users_rating = '${req.body.rating}'
+      WHERE
+        id = '${req.params.id}'`;
+    
+    if(req.file) {      
+      const query1 = `UPDATE shows 
+      SET 
+        title = '${req.body.title}',
+        subtitle = '${req.body.subtitle}',
+        date_of_start = '${req.body.dateOfStart}',
+        long_description = '${req.body.long}',
+        short_description = '${req.body.short}',
+        priority = '${req.body.priority}',
+        last_modified_date = '${new Date().toLocaleString()}',
+        video_fragment_url = '${req.body.url}',
+        users_rating = '${req.body.rating}',
+        featured_image = '${req.file.filename}'
+      WHERE
+        id = '${req.params.id}'`;
+
+      const qi = `SELECT featured_image FROM shows WHERE id = '${req.params.id}'`;
+    
+      this.queryFuncGet(qi)
+        .then(data => fs.unlinkSync(`public/images/${data[0].featured_image}`))
+        .catch((err) => console.log(err));
+
+      this.queryFuncPost(query1);
+      
+    } else {
+      this.queryFuncPost(query2);
+    }    
   }
 }

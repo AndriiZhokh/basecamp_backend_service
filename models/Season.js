@@ -30,4 +30,46 @@ export default class Season extends DB {
       .then(data => res.json(data))
       .catch((err) => console.log(err));
   }
+
+  updateSeason(req) {
+    this.DBconection();
+    
+    const query2 = `UPDATE seasons 
+      SET 
+        season_name = '${req.body.seasonName}',
+        season_number = '${req.body.seasonNumber}',
+        long_description = '${req.body.long}',
+        short_description = '${req.body.short}',
+        last_modified_date = '${new Date().toLocaleString()}',
+        video_fragment_url = '${req.body.url}',
+        users_rating = '${req.body.rating}'
+      WHERE
+        id = '${req.params.id}'`;
+    
+    if(req.file) {      
+      const query1 = `UPDATE seasons 
+      SET 
+        season_name = '${req.body.seasonName}',
+        season_number = '${req.body.seasonNumber}',
+        long_description = '${req.body.long}',
+        short_description = '${req.body.short}',
+        last_modified_date = '${new Date().toLocaleString()}',
+        video_fragment_url = '${req.body.url}',
+        users_rating = '${req.body.rating}',
+        featured_image = '${req.file.filename}'
+      WHERE
+        id = '${req.params.id}'`;
+
+      const qi = `SELECT featured_image FROM seasons WHERE id = '${req.params.id}'`;
+    
+      this.queryFuncGet(qi)
+        .then(data => fs.unlinkSync(`public/images/${data[0].featured_image}`))
+        .catch((err) => console.log(err));
+
+      this.queryFuncPost(query1);
+      
+    } else {
+      this.queryFuncPost(query2);
+    }    
+  }
 }
