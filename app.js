@@ -41,6 +41,7 @@ const checkFileType = (file, cb) => {
 const app = express();
 app.use(express.static('public'));
 
+//=========Show routes================
 app.get('/show', (req, res) => {
   console.log('!!!!');
   const show = new Show();
@@ -59,6 +60,7 @@ app.post('/show', (req, res) => {
   });
 });
 
+//=========Season routes================
 app.post('/season', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -76,6 +78,7 @@ app.get('/season', (req, res) => {
   season.getSeason(res);
 });
 
+//=========Episode routes================
 app.post('/episode', (req, res) => {
   upload(req, res, (err) => {
     if (err) {
@@ -91,6 +94,18 @@ app.post('/episode', (req, res) => {
 app.get('/episode', (req, res) => {
   const episode = new Episode();
   episode.getEpisode(res);
+});
+
+app.put('/episode/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res.json({msg: err});
+    } else {
+      const episode = new Episode();
+      episode.updateEpisode(req);
+      res.json({response: 'succses'});
+    }
+  });
 });
 
 const server = app.listen(serverPort, () => {
