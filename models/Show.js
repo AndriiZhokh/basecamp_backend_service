@@ -1,4 +1,5 @@
 import DB from './db';
+import fs from 'fs';
 
 export default class Show extends DB {
   constructor(req) {
@@ -19,12 +20,14 @@ export default class Show extends DB {
     }    
   }
 
+//================================================================================================
   addShow() {
     const query = `INSERT INTO shows (title, subtitle, date_of_start, poster_image, long_description, short_description, priority, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.title}', '${this.subtitle}', '${this.dateOfStart}', '${this.image}', '${this.long}', '${this.short}', '${this.priority}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
     this.DBconection();
     this.queryFuncPost(query);
   }
 
+//================================================================================================
   getShow(res) {
     this.DBconection();
     const query = `SELECT * FROM shows`;
@@ -33,6 +36,7 @@ export default class Show extends DB {
       .catch((err) => console.log(err));
   }
 
+//================================================================================================
   updateShow(req) {
     this.DBconection();
     
@@ -62,14 +66,14 @@ export default class Show extends DB {
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
         users_rating = '${req.body.rating}',
-        featured_image = '${req.file.filename}'
+        poster_image = '${req.file.filename}'
       WHERE
         id = '${req.params.id}'`;
 
-      const qi = `SELECT featured_image FROM shows WHERE id = '${req.params.id}'`;
+      const qi = `SELECT poster_image FROM shows WHERE id = '${req.params.id}'`;
     
       this.queryFuncGet(qi)
-        .then(data => fs.unlinkSync(`public/images/${data[0].featured_image}`))
+        .then(data => fs.unlinkSync(`public/images/${data[0].poster_image}`))
         .catch((err) => console.log(err));
 
       this.queryFuncPost(query1);
@@ -77,5 +81,23 @@ export default class Show extends DB {
     } else {
       this.queryFuncPost(query2);
     }    
+  }
+
+//================================================================================================
+  deleteShow(id, res) {    
+    this.DBconection();
+    const qi = `SELECT poster_image FROM shows WHERE id = '${id}'`;
+    const query = `DELETE FROM shows WHERE id = '${id}'`;        
+
+    this.queryFuncGet(qi)
+      .then(data => {
+        this.queryFuncGet(query)
+          .then(response => {
+            res.json({res: `some data`});
+            fs.unlinkSync(`public/images/${data[0].poster_image}`);
+          })
+          .catch(err => res.json({err: `Can't delete Show. This show contains some seasons`}));
+      })
+      .catch((err) => console.log(err));
   }
 }

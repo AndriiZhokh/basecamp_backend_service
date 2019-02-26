@@ -18,6 +18,7 @@ export default class Episode extends DB {
     }
   }
 
+//=======================================================================================================
   addEpisode() {
     const query = `INSERT INTO episodes (episode_name, episode_number, related_show, related_season, long_description, short_description, featured_image, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.episodeName}', '${this.episodeNumber}', '${this.relatedShow}', '${this.relatedSeason}', '${this.long}', '${this.short}', '${this.image}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
     
@@ -25,6 +26,7 @@ export default class Episode extends DB {
     this.queryFuncPost(query);
   }
 
+//=======================================================================================================
   getEpisode(res) {
     this.DBconection();
     const query = `SELECT * FROM episodes`;
@@ -33,6 +35,7 @@ export default class Episode extends DB {
       .catch((err) => console.log(err));
   }
 
+//=======================================================================================================
   updateEpisode(req) {
     this.DBconection();
     
@@ -73,5 +76,26 @@ export default class Episode extends DB {
     } else {
       this.queryFuncPost(query2);
     }    
+  }
+
+//=======================================================================================================
+  deleteEpisode(id, res) {
+    this.DBconection();
+    const qi = `SELECT featured_image FROM episodes WHERE id = '${id}'`;
+    const query = `DELETE FROM episodes WHERE id = '${id}'`;        
+
+    this.queryFuncGet(qi)
+      .then(data => {
+        this.queryFuncGet(query)
+          .then(response => {
+            res.json({res: `some data`});
+            fs.unlinkSync(`public/images/${data[0].featured_image}`);
+          })
+          .catch(err => {
+            console.log(err);
+            res.json({err: `Can't delete Season. This show contains some episodes`})
+          });
+      })
+      .catch((err) => console.log(err));
   }
 }

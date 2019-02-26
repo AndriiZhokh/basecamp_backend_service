@@ -72,6 +72,11 @@ app.put('/show/:id', (req, res) => {
   });
 });
 
+app.delete('/show/:id', (req, res) => {
+  const show = new Show();
+  show.deleteShow(req.params.id, res);
+});
+
 //=========Season routes================
 app.post('/season', (req, res) => {
   upload(req, res, (err) => {
@@ -102,6 +107,11 @@ app.put('/season/:id', (req, res) => {
   });
 });
 
+app.delete('/season/:id', (req, res) => {
+  const season = new Season();
+  season.deleteSeason(req.params.id, res);
+});
+
 //=========Episode routes================
 app.post('/episode', (req, res) => {
   upload(req, res, (err) => {
@@ -130,6 +140,11 @@ app.put('/episode/:id', (req, res) => {
       res.json({response: 'succses'});
     }
   });
+});
+
+app.delete('/episode/:id', (req, res) => {
+  const episode = new Episode();
+  episode.deleteEpisode(req.params.id, res);
 });
 
 const server = app.listen(serverPort, () => {
