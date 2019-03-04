@@ -35,6 +35,15 @@ export default class Season extends DB {
   }
 
 //================================================================================================
+  getOneSeason(id, res) {
+    this.DBconection();
+    const query = `SELECT * FROM seasons WHERE id = '${id}'`;
+    this.queryFuncGet(query)
+      .then(data => res.json(data))
+      .catch(err => console.log(err));
+  }
+
+//================================================================================================
   updateSeason(req) {
     this.DBconection();
     

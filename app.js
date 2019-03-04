@@ -54,10 +54,15 @@ app.post('/show', (req, res) => {
   });
 });
 
-app.get('/show', (req, res) => {
+app.get('/shows', (req, res) => {
   console.log('!!!!');
   const show = new Show();
   const data = show.getShow(res);
+});
+
+app.get('/show/:id', (req, res) => {
+  const show = new Show();
+  show.getOneShow(req.params.id, res);
 });
 
 app.put('/show/:id', (req, res) => {
@@ -90,9 +95,14 @@ app.post('/season', (req, res) => {
   });
 });
 
-app.get('/season', (req, res) => {
+app.get('/seasons', (req, res) => {
   const season = new Season();
   season.getSeason(res);
+});
+
+app.get('/season/:id', (req, res) => {
+  const season = new Season();
+  season.getOneSeason(req.params.id, res);
 });
 
 app.put('/season/:id', (req, res) => {
@@ -125,9 +135,14 @@ app.post('/episode', (req, res) => {
   });
 });
 
-app.get('/episode', (req, res) => {
+app.get('/episodes', (req, res) => {
   const episode = new Episode();
   episode.getEpisode(res);
+});
+
+app.get('/episode/:id', (req, res) => {
+  const episode = new Episode();
+  episode.getOneEpisode(req.params.id, res);
 });
 
 app.put('/episode/:id', (req, res) => {

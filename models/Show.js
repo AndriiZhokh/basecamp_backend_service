@@ -36,6 +36,14 @@ export default class Show extends DB {
       .catch((err) => console.log(err));
   }
 
+  getOneShow(id, res) {
+    this.DBconection();
+    const query = `SELECT * FROM shows WHERE id = '${id}'`;
+    this.queryFuncGet(query)
+      .then(data => res.json(data))
+      .catch(err => console.log(err));
+  }
+
 //================================================================================================
   updateShow(req) {
     this.DBconection();

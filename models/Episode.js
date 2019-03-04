@@ -36,6 +36,15 @@ export default class Episode extends DB {
   }
 
 //=======================================================================================================
+getOneEpisode(id, res) {
+  this.DBconection();
+  const query = `SELECT * FROM episodes WHERE id = '${id}'`;
+  this.queryFuncGet(query)
+    .then(data => res.json(data))
+    .catch(err => console.log(err));
+}
+
+//=======================================================================================================
   updateEpisode(req) {
     this.DBconection();
     
