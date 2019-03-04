@@ -108,4 +108,17 @@ export default class Show extends DB {
       })
       .catch((err) => console.log(err));
   }
+
+//================================================================================================
+  changeRating(req) {
+    this.DBconection();
+    const query = `UPDATE shows SET users_rating = '${req.body.rating}' WHERE id = '${req.params.id}'`;
+
+    console.log(req.body.rating);
+    console.log(req.params.id);
+
+    this.queryFuncGet(query)
+      .then(data => console.log(data))
+      .catch(err => console.log(err + 'err'));
+  }
 }

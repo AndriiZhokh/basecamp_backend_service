@@ -77,6 +77,17 @@ app.put('/show/:id', (req, res) => {
   });
 });
 
+app.put('/rating/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      res.json({msg: err});
+    } else {
+      const show = new Show();
+      show.changeRating(req);
+    }
+  });
+});
+
 app.delete('/show/:id', (req, res) => {
   const show = new Show();
   show.deleteShow(req.params.id, res);
