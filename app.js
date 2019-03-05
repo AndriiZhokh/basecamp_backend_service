@@ -128,6 +128,17 @@ app.put('/season/:id', (req, res) => {
   });
 });
 
+app.put('/rating_season/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      res.json({msg: err});
+    } else {
+      const season = new Season();
+      season.changeRating(req);
+    }
+  });
+});
+
 app.delete('/season/:id', (req, res) => {
   const season = new Season();
   season.deleteSeason(req.params.id, res);
@@ -164,6 +175,17 @@ app.put('/episode/:id', (req, res) => {
       const episode = new Episode();
       episode.updateEpisode(req);
       res.json({response: 'succses'});
+    }
+  });
+});
+
+app.put('/rating_episode/:id', (req, res) => {
+  upload(req, res, (err) => {
+    if(err) {
+      res.json({msg: err});
+    } else {
+      const episode = new Episode();
+      episode.changeRating(req);
     }
   });
 });
