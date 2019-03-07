@@ -30,6 +30,8 @@ export default class DB {
           console.log('1 record inserted');
         }
       });
+
+      this.connection.end();
   }
 
   queryFuncGet(q) {
@@ -41,6 +43,8 @@ export default class DB {
           resolve(result);
         }
       });
+
+      this.connection.end();
     });
   }
 }
