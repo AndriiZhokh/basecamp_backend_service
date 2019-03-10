@@ -19,7 +19,7 @@ export default class Season extends DB {
 
 //================================================================================================
   addSeason() {
-    const query = `INSERT INTO seasons (season_name, season_number, related_show, long_description, short_description, featured_image, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.seasonName}', '${this.seasonNumber}', '${this.relatedShow}', '${this.long}', '${this.short}', '${this.image}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
+    const query = `INSERT INTO seasons (season_name, season_number, related_show, long_description, short_description, featured_image, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.seasonName}', '${this.seasonNumber}', '${this.relatedShow}', '${escape(this.long)}', '${escape(this.short)}', '${this.image}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
     
     this.DBconection();
     this.queryFuncPost(query);
@@ -51,8 +51,8 @@ export default class Season extends DB {
       SET 
         season_name = '${req.body.seasonName}',
         season_number = '${req.body.seasonNumber}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
         users_rating = '${req.body.rating}'
@@ -64,8 +64,8 @@ export default class Season extends DB {
       SET 
         season_name = '${req.body.seasonName}',
         season_number = '${req.body.seasonNumber}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
         users_rating = '${req.body.rating}',

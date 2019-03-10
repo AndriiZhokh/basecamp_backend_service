@@ -20,7 +20,7 @@ export default class Episode extends DB {
 
 //=======================================================================================================
   addEpisode() {
-    const query = `INSERT INTO episodes (episode_name, episode_number, related_show, related_season, long_description, short_description, featured_image, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.episodeName}', '${this.episodeNumber}', '${this.relatedShow}', '${this.relatedSeason}', '${this.long}', '${this.short}', '${this.image}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
+    const query = `INSERT INTO episodes (episode_name, episode_number, related_show, related_season, long_description, short_description, featured_image, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.episodeName}', '${this.episodeNumber}', '${this.relatedShow}', '${this.relatedSeason}', '${escape(this.long)}', '${escape(this.short)}', '${this.image}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
     
     this.DBconection();
     this.queryFuncPost(query);
@@ -52,8 +52,8 @@ getOneEpisode(id, res) {
       SET 
         episode_name = '${req.body.episodeName}',
         episode_number = '${req.body.episodeNumber}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
         users_rating = '${req.body.rating}'
@@ -65,8 +65,8 @@ getOneEpisode(id, res) {
       SET 
         episode_name = '${req.body.episodeName}',
         episode_number = '${req.body.episodeNumber}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
         users_rating = '${req.body.rating}',

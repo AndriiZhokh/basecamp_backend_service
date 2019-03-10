@@ -22,7 +22,7 @@ export default class Show extends DB {
 
 //================================================================================================
   addShow() {
-    const query = `INSERT INTO shows (title, subtitle, date_of_start, poster_image, long_description, short_description, priority, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.title}', '${this.subtitle}', '${this.dateOfStart}', '${this.image}', '${this.long}', '${this.short}', '${this.priority}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
+    const query = `INSERT INTO shows (title, subtitle, date_of_start, poster_image, long_description, short_description, priority, date_of_publish, last_modified_date, video_fragment_url, users_rating) VALUES ('${this.title}', '${this.subtitle}', '${this.dateOfStart}', '${this.image}', '${escape(this.long)}', '${escape(this.short)}', '${this.priority}', '${this.currentDate}', '${this.currentDate}', '${this.url}', '${this.rating}')`;
     this.DBconection();
     this.queryFuncPost(query);
   }
@@ -53,8 +53,8 @@ export default class Show extends DB {
         title = '${req.body.title}',
         subtitle = '${req.body.subtitle}',
         date_of_start = '${req.body.dateOfStart}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         priority = '${req.body.priority}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
@@ -68,8 +68,8 @@ export default class Show extends DB {
         title = '${req.body.title}',
         subtitle = '${req.body.subtitle}',
         date_of_start = '${req.body.dateOfStart}',
-        long_description = '${req.body.long}',
-        short_description = '${req.body.short}',
+        long_description = '${escape(req.body.long)}',
+        short_description = '${escape(req.body.short)}',
         priority = '${req.body.priority}',
         last_modified_date = '${new Date().toLocaleString()}',
         video_fragment_url = '${req.body.url}',
