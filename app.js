@@ -3,6 +3,7 @@ import multer from 'multer';
 import path from 'path';
 import { serverPort } from './config/config.json';
 
+import Helpers from './helpers/Helpers';
 import Show from './models/Show';
 import Season from './models/Season';
 import Episode from './models/Episode';
@@ -20,22 +21,10 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-    checkFileType(file, cb)
+    /* checkFileType(file, cb) */
+    Helpers.checkFileType(file, cb)
   }
 }).single('image');
-
-//Check File Type
-const checkFileType = (file, cb) => {
-  const filetypes = /jpeg|jpg|png|gif/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
-
-  if (mimetype && extname) {
-    return cb(null, true)
-  } else {
-    cb('Error: Images only')
-  }
-}
 
 //Init app
 const app = express();
