@@ -1,6 +1,7 @@
 import path from 'path';
+import multer from 'multer';
 
-export default class Helpers {
+class Helpers {
   static checkFileType(file, cb) {
     const filetypes = /jpeg|jpg|png|gif/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -13,3 +14,21 @@ export default class Helpers {
     }
   }
 }
+
+//Set Storage Engine
+Helpers.storage = multer.diskStorage({
+  destination: 'public/images/',
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+  }
+});
+
+//Init upload
+Helpers.upload = multer({
+  storage: Helpers.storage,
+  fileFilter: (req, file, cb) => {
+    Helpers.checkFileType(file, cb)
+  }
+}).single('image');
+
+export default Helpers;

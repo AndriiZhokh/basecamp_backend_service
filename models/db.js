@@ -44,7 +44,7 @@ export default class DB {
         }
       });
 
-      this.connection.end();
+      /* this.connection.end(); */
     });
   }
 }
